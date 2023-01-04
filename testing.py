@@ -1,36 +1,55 @@
 import yfinance as yf
-import pandas as pd 
+import pandas as pd
 import riskfolio as rp
 from typing import List
+import matplotlib.pyplot as plt
+from pycaret import regression
 
-assets: List[str] = ['DE', 'MSFT', 'HPQ', 'SEE', 'VZ', 'CNP', 'NI', 'T', 'BA']
+assets: List[str] = ["DE", "MSFT"]
 assets.sort()
 
-data = yf.download(assets,period="1y")
-data = data.loc[:,('Adj Close')]
+data = yf.download(assets, period="10y", threads=False)
+
+data = data.loc[:, ("Adj Close")]
 data.columns = assets
-print(data)
 
-Y = data[assets].pct_change().dropna()
-print(Y)
 
-portfolio = rp.Portfolio(returns=Y)
+def estimate_portfolio(data):
+    # Estimate optimal portfolio:
+    Y = data.pct_change().dropna()
+    print(Y)
 
-method_mu: str = 'hist' # Method to estimate expected returns based on historical data.
-method_cov: str = 'hist' # Method to estimate covariance matrix based on historical data.
+    portfolio = rp.Portfolio(returns=Y)
 
-portfolio.assets_stats(method_mu=method_mu, method_cov=method_cov, d=0.94)
+    method_mu: str = "hist"  
+    method_cov: str = "hist"
 
-def estimate_portfolio ():
-# Estimate optimal portfolio:
+    portfolio.assets_stats(method_mu=method_mu, method_cov=method_cov, d=0.94)
 
-    model: str ='Classic' # Could be Classic (historical), BL (Black Litterman) or FM (Factor Model)
-    rm: str = 'MV' # Risk measure used, this time will be variance
-    obj: str = 'Sharpe' # Objective function, could be MinRisk, MaxRet, Utility or Sharpe
-    hist: bool = True # Use historical scenarios for risk measures that depend on scenarios
-    rf: int = 0 # Risk free rate
-    l: int = 0 # Risk aversion factor, only useful when obj is 'Utility'
+    model: str = "Classic"  # Could be Classic (historical), BL (Black Litterman) or FM (Factor Model)
+    rm: str = "MV"  # Risk measure used, this time will be variance
+    obj: str = "Sharpe"  # Objective function, could be MinRisk, MaxRet, Utility or Sharpe
+    hist: bool = True  # Use historical scenarios for risk measures that depend on scenarios
+    rf: int = 0  # Risk free rate
+    l: int = 0  # Risk aversion factor, only useful when obj is 'Utility'
 
     w = portfolio.optimization(model=model, rm=rm, obj=obj, rf=rf, l=l, hist=hist)
-print("WEights:")
-print(w.T)
+    return w
+
+
+def plot_portfolio(w):
+    ax = plt.subplot()
+    ax = rp.plot_pie(
+        w=w,
+        title="Sharpe Mean Variance",
+        nrow=25,
+        cmap="tab20",
+        height=6,
+        width=10,
+        ax=None,
+    )
+    plt.show()
+
+
+calculated_portfolio = estimate_portfolio(data)
+plot_portfolio(calculated_portfolio)
