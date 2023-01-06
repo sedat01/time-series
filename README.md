@@ -33,7 +33,7 @@ After setting the parameters you can just click "Run all cells" in your IDE. The
 
 Not yet, feel free to contact me:
 
-## Developer:
+## Developer
 
 Sedat Mehmed, ML Engineer trainee @ Becode Gent
 
