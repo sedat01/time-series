@@ -55,6 +55,7 @@ def plot_portfolio(w):
         title="Sharpe Mean Variance",
         nrow=25,
         cmap="tab20",
+        others=0,
         height=6,
         width=10,
         ax=None,
