@@ -35,6 +35,11 @@ You can find an excel spreadsheet with a list of valid ticker symbols in the rep
 
 Not yet, feel free to contact me:
 
+
+## Next to develop
+
+Proper GUI
+
 ## Developer
 
 Sedat Mehmed, ML Engineer trainee @ Becode Gent
