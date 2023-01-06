@@ -29,6 +29,8 @@ The second cell contains the parameters:
 
 After setting the parameters you can just click "Run all cells" in your IDE. The program will calculate the best distribution of assets using Sharpe objective and mean variance risk assesment. You can see the generated graphs with recommended asset distribution in your portfolio, separately for the data based on current prices and the predicticted prices. you can also see line plots for the prices vs the time.
 
+You can find an excel spreadsheet with a list of valid ticker symbols in the repo.
+
 ## Known issues
 
 Not yet, feel free to contact me:
